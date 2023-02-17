@@ -6,6 +6,15 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
     
+    <PropertyGroup>
+        <PackageVersion>1.0.0</PackageVersion>
+        <PackageId>ArtemisRGB.GameFinder</PackageId>
+        <Title>Artemis GameFinder</Title>
+        <Authors>diogotr7</Authors>
+        <Description>Helper classes for plugin devs to find game installation directories.</Description>
+        <PackageTags>artemis;rgb;plugin</PackageTags>
+    </PropertyGroup>
+    
     <ItemGroup>
         <PackageReference Include="ArtemisRGB.Core" Version="1.2023.212.6" />
         <PackageReference Include="GameFinder.StoreHandlers.Steam" Version="2.5.0" />

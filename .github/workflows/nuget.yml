@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Pack
-        run: dotnet pack -c Release src/Artemis.GameFinder.csproj
+        run: dotnet pack -c Release src/Artemis.GameFinder/Artemis.GameFinder.csproj
 
       - name: Upload
-        run: dotnet nuget push src/bin/Release/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+        run: dotnet nuget push src/Artemis.GameFinder/bin/Release/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
