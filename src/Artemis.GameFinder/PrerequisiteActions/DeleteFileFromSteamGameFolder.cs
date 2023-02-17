@@ -3,7 +3,7 @@ using Artemis.Core;
 using GameFinder.RegistryUtils;
 using GameFinder.StoreHandlers.Steam;
 
-namespace Artemis.GameFinder;
+namespace Artemis.GameFinder.PrerequisiteActions;
 
 public class DeleteFileFromSteamGameFolder : PluginPrerequisiteAction
 {

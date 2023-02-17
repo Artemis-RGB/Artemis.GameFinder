@@ -7,7 +7,7 @@
     </PropertyGroup>
     
     <PropertyGroup>
-        <PackageVersion>1.0.0</PackageVersion>
+        <PackageVersion>1.1.0</PackageVersion>
         <PackageId>ArtemisRGB.GameFinder</PackageId>
         <Title>Artemis GameFinder</Title>
         <Authors>diogotr7</Authors>
