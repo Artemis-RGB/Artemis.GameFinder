@@ -2,6 +2,8 @@
 using System.Runtime.InteropServices;
 using Artemis.Core;
 using Artemis.GameFinder.PrerequisiteActions;
+using Artemis.GameFinder.Utils;
+using DryIoc.ImTools;
 using GameFinder.RegistryUtils;
 using GameFinder.StoreHandlers.Steam;
 
@@ -19,9 +21,7 @@ public class IsFilePresentInSteamGameFolderPrerequisite : PluginPrerequisite
         _gameId = gameId;
         _destinationPathRelative = destinationPathRelative;
         _sourcePath = sourcePath;
-        _steamHandler = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
-            ? new SteamHandler(new WindowsRegistry())
-            : new SteamHandler(registry: null);
+        _steamHandler = SteamHandlerFactory.Create();
 
         Name = $"File present in game folder";
         Description = $"File \"{destinationPathRelative}\" must be present in Steam game folder to use this plugin";
@@ -59,14 +59,17 @@ public class IsFilePresentInSteamGameFolderPrerequisite : PluginPrerequisite
     private bool TryGetGamePath(int id, [NotNullWhen(true)] out string? path)
     {
         var games = _steamHandler.FindAllGames();
-        var game = games.Select(r => r.Game).FirstOrDefault(g => g?.AppId == id);
+        var game = games.Where(x => x.IsT0)
+                        .Select(r => r.AsT0)
+                        .FirstOrDefault(g => g?.AppId == SteamGameId.From(id));
+        
         if (game is null)
         {
             path = null;
             return false;
         }
-        
-        path = game.Path;
+
+        path = game.Path.GetFullPath();
         return true;
     }
 }

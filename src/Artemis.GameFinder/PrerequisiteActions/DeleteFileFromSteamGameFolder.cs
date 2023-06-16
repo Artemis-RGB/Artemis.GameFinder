@@ -1,5 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 using Artemis.Core;
+using Artemis.GameFinder.Utils;
 using GameFinder.RegistryUtils;
 using GameFinder.StoreHandlers.Steam;
 
@@ -26,15 +27,13 @@ public class DeleteFileFromSteamGameFolder : PluginPrerequisiteAction
     
     public override Task Execute(CancellationToken cancellationToken)
     {
-        var steamHandler = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
-            ? new SteamHandler(new WindowsRegistry())
-            : new SteamHandler(registry: null);
+        var steamHandler = SteamHandlerFactory.Create();
 
-        var game = steamHandler.FindOneGameById(SteamId, out var errors);
+        var game = steamHandler.FindOneGameById(SteamGameId.From(SteamId), out var errors);
         if (game == null)
             throw new ArtemisPluginException("Could not find game with id " + SteamId);
 
-        var filePath = Path.Combine(game.Path, FilePath);
+        var filePath = Path.Combine(game.Path.GetFullPath(), FilePath);
         if (File.Exists(filePath))
             File.Delete(filePath);
 

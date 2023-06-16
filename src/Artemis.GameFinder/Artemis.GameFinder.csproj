@@ -7,7 +7,7 @@
     </PropertyGroup>
     
     <PropertyGroup>
-        <PackageVersion>1.2.0</PackageVersion>
+        <PackageVersion>2.0.0</PackageVersion>
         <PackageId>ArtemisRGB.GameFinder</PackageId>
         <Title>Artemis GameFinder</Title>
         <Authors>diogotr7</Authors>
@@ -16,8 +16,8 @@
     </PropertyGroup>
     
     <ItemGroup>
-        <PackageReference Include="ArtemisRGB.Core" Version="1.2023.410.9" />
-        <PackageReference Include="GameFinder.StoreHandlers.Steam" Version="2.6.0" />
+        <PackageReference Include="ArtemisRGB.Core" Version="1.2023.612.3" />
+        <PackageReference Include="GameFinder.StoreHandlers.Steam" Version="3.1.0" />
     </ItemGroup>
 
 </Project>

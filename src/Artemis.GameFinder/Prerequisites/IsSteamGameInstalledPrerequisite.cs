@@ -1,5 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 using Artemis.Core;
+using Artemis.GameFinder.Utils;
+using GameFinder.Common;
 using GameFinder.RegistryUtils;
 using GameFinder.StoreHandlers.Steam;
 
@@ -23,17 +25,15 @@ public class IsSteamGameInstalledPrerequisite : PluginPrerequisite
         Name = $"Steam game \"{gameNameOrId}\" installed";
         Description = $"Steam game {gameNameOrId} must be installed to use this plugin";
         
-        _steamHandler = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
-            ? new SteamHandler(new WindowsRegistry())
-            : new SteamHandler(registry: null);
+        _steamHandler = SteamHandlerFactory.Create();
     }
     
     public override bool IsMet()
     {
         try
         {
-            var games = _steamHandler.FindAllGames();
-            return games.Any(game => game.Game?.AppId == GameId);
+            var maybeGames = _steamHandler.FindAllGames();
+            return maybeGames.Any(option => option.TryPickT0(out var game, out var _) && game.AppId == GameId);
         }
         catch
         {
