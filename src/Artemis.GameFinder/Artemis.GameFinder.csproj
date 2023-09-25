@@ -16,7 +16,7 @@
     </PropertyGroup>
     
     <ItemGroup>
-        <PackageReference Include="ArtemisRGB.Core" Version="1.2023.917.4" IncludeAssets="compile;build;buildTransitive" />
+        <PackageReference Include="ArtemisRGB.Core" Version="1.2023.923.3" IncludeAssets="compile;build;buildTransitive" />
         <PackageReference Include="GameFinder.StoreHandlers.Steam" Version="3.1.0" />
     </ItemGroup>
 
