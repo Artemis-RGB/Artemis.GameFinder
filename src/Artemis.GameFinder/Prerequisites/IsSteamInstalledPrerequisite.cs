@@ -1,31 +1,28 @@
-﻿using System.Runtime.InteropServices;
-using Artemis.Core;
+﻿using Artemis.Core;
 using Artemis.GameFinder.Utils;
-using GameFinder.RegistryUtils;
-using GameFinder.StoreHandlers.Steam;
 
 namespace Artemis.GameFinder.Prerequisites;
 
 /// <summary>
 ///   Checks if Steam is installed
 /// </summary>
-public class IsSteamInstalledPrerequisite :  PluginPrerequisite
+public class IsSteamInstalledPrerequisite : PluginPrerequisite
 {
     public IsSteamInstalledPrerequisite(Plugin plugin)
     {
         Name = "Steam installed";
         Description = "Steam must be installed to use this plugin";
-        
-        var installPath = plugin.ResolveRelativePath("SteamSetup.exe");
-        InstallActions = new()
+
+        var installPath = plugin?.ResolveRelativePath("SteamSetup.exe") ?? "SteamSetup.exe";
+        InstallActions = new List<PluginPrerequisiteAction>
         {
-             new DownloadFileAction("Download Steam", "https://cdn.akamai.steamstatic.com/client/installer/SteamSetup.exe", installPath),
-             new ExecuteFileAction("Install Steam", installPath, "/S"),
-             new DeleteFileAction("Delete Steam installer", installPath)
+            new DownloadFileAction("Download Steam", "https://cdn.akamai.steamstatic.com/client/installer/SteamSetup.exe", installPath),
+            new ExecuteFileAction("Install Steam", installPath, "/S"),
+            new DeleteFileAction("Delete Steam installer", installPath)
         };
-        UninstallActions = new();
+        UninstallActions = new List<PluginPrerequisiteAction>();
     }
-    
+
     public override bool IsMet()
     {
         var handler = SteamHandlerFactory.Create();

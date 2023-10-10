@@ -1,9 +1,7 @@
-﻿using System.Runtime.InteropServices;
-using Artemis.Core;
+﻿using Artemis.Core;
 using Artemis.GameFinder.Utils;
-using GameFinder.Common;
-using GameFinder.RegistryUtils;
 using GameFinder.StoreHandlers.Steam;
+using GameFinder.StoreHandlers.Steam.Models.ValueTypes;
 
 namespace Artemis.GameFinder.Prerequisites;
 
@@ -13,27 +11,28 @@ namespace Artemis.GameFinder.Prerequisites;
 public class IsSteamGameInstalledPrerequisite : PluginPrerequisite
 {
     private readonly SteamHandler _steamHandler;
-    public IsSteamGameInstalledPrerequisite(int gameId, string? gameName = null)
+
+    public IsSteamGameInstalledPrerequisite(uint gameId, string? gameName = null)
     {
         var gameNameOrId = gameName ?? gameId.ToString();
-        InstallActions = new()
+        InstallActions = new List<PluginPrerequisiteAction>
         {
             new RunInlinePowerShellAction($"Install game {gameNameOrId}", $"start \"steam://run/{gameId}\"")
         };
-        UninstallActions = new();
+        UninstallActions = new List<PluginPrerequisiteAction>();
         GameId = gameId;
         Name = $"Steam game \"{gameNameOrId}\" installed";
         Description = $"Steam game {gameNameOrId} must be installed to use this plugin";
-        
+
         _steamHandler = SteamHandlerFactory.Create();
     }
-    
+
     public override bool IsMet()
     {
         try
         {
             var maybeGames = _steamHandler.FindAllGames();
-            return maybeGames.Any(option => option.TryPickT0(out var game, out var _) && game.AppId == GameId);
+            return maybeGames.Any(option => option.TryPickT0(out var game, out var _) && game.AppId == AppId.From(GameId));
         }
         catch
         {
@@ -41,7 +40,7 @@ public class IsSteamGameInstalledPrerequisite : PluginPrerequisite
         }
     }
 
-    public int GameId { get; }
+    public uint GameId { get; }
     public override string Name { get; }
     public override string Description { get; }
     public override List<PluginPrerequisiteAction> InstallActions { get; }

@@ -11,6 +11,6 @@ internal static class SteamHandlerFactory
     {
         return RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
             ? new SteamHandler(FileSystem.Shared, WindowsRegistry.Shared)
-            : new SteamHandler(FileSystem.Shared, registry: null);
+            : new SteamHandler(FileSystem.Shared, null);
     }
 }

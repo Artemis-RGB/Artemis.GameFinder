@@ -6,7 +6,7 @@ public static class Program
 {
     public static void Main(string[] args)
     {
-        var steamInstalled = new IsSteamInstalledPrerequisite(null);
+        var steamInstalled = new IsSteamInstalledPrerequisite(null!);
         Console.WriteLine($"Steam installed: {steamInstalled.IsMet()}");
 
         var gameInstalled = new IsSteamGameInstalledPrerequisite(548430);
